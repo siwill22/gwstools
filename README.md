@@ -1,5 +1,5 @@
 # gwstools
-python functions to access data from gplates web service (without needing pygplates)
+python functions to access data from gplates web service
 
 The idea of these functions is to provide a simple means to access data files from the gplates web service,
 to be used in python.
