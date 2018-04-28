@@ -19,22 +19,24 @@ def FeatureCollection(model='MULLER2016',layer='rotations',url='http://gws.gplat
     else:
         requested_file = 'request.gpmlz'
 
-        with open(requested_file, 'wb') as handle:
-            r = requests.get('%s/model/get_model_layer/?model=%s&layer=%s' % (url,model,layer),
-                             proxies={'http':'%s' % proxy},
-                             stream=True)
+    with open(requested_file, 'wb') as handle:
+        r = requests.get('%s/model/get_model_layer/?model=%s&layer=%s' % (url,model,layer),
+                         proxies={'http':'%s' % proxy},
+                         stream=True)
 
-            if r.status_code!=200:
-                error_string = 'Remote request returned with message %s' % r.text
-                raise Exception(error_string)
-            else:
-               for block in r.iter_content(1024):
-                   handle.write(block)
+        print r
 
-            if layer=='rotations':
-                result = pygplates.RotationModel('request.rot')
-            else:
-                result = pygplates.FeatureCollection('request.gpmlz')
+        if r.status_code!=200:
+            error_string = 'Remote request returned with message %s' % r.text
+            raise Exception(error_string)
+        else:
+            for block in r.iter_content(1024):
+                handle.write(block)
+
+        if layer=='rotations':
+            result = pygplates.RotationModel('request.rot')
+        else:
+            result = pygplates.FeatureCollection('request.gpmlz')
 
     return result
 
