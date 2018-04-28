@@ -24,8 +24,6 @@ def FeatureCollection(model='MULLER2016',layer='rotations',url='http://gws.gplat
                          proxies={'http':'%s' % proxy},
                          stream=True)
 
-        print r
-
         if r.status_code!=200:
             error_string = 'Remote request returned with message %s' % r.text
             raise Exception(error_string)
