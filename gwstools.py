@@ -4,7 +4,7 @@ import json
 #base_url = 'http://127.0.0.1:8000'
 
 # fetch reconstructed coastlines
-def gws_coastlines(recon_time,model='SETON2012', url='http://gws.gplates.org', proxies={'http':''}):
+def gws_coastlines(recon_time,model='SETON2012', url='https://gws.gplates.org', proxies={'http':''}):
 
     r = requests.get('%s/reconstruct/coastlines/?time=%0.2f' % (url,recon_time),
                      proxies=proxies)
@@ -13,7 +13,7 @@ def gws_coastlines(recon_time,model='SETON2012', url='http://gws.gplates.org', p
     return cs
 
 # fetch reconstructed topological plate polygons
-def gws_plate_polygons(recon_time,model='SETON2012', url='http://gws.gplates.org', proxies={'http':''}):
+def gws_plate_polygons(recon_time,model='SETON2012', url='https://gws.gplates.org', proxies={'http':''}):
 
     r = requests.get('%s/topology/plate_polygons/?time=%0.2f' % (url,recon_time),
                      proxies=proxies)
@@ -22,7 +22,7 @@ def gws_plate_polygons(recon_time,model='SETON2012', url='http://gws.gplates.org
     return pp
 
 # fetch reconstructed static polygons
-def gws_static_polygons(recon_time,model='SETON2012', url='http://gws.gplates.org', proxies={'http':''}):
+def gws_static_polygons(recon_time,model='SETON2012', url='https://gws.gplates.org', proxies={'http':''}):
 
      r = requests.get('%s/reconstruct/static_polygons/?time=%0.2f' % (url,recon_time),
                       proxies=proxies)
@@ -32,7 +32,7 @@ def gws_static_polygons(recon_time,model='SETON2012', url='http://gws.gplates.or
 
 # fetch reconstructed motion paths
 def gws_motion_path(recon_time,seedpoints,fixplate,movplate,time_min,time_max,time_step,
-                    model='SETON2012', url='http://gws.gplates.org', proxies={'http':''}):
+                    model='SETON2012', url='https://gws.gplates.org', proxies={'http':''}):
     
     r = requests.get('%s/reconstruct/motion_path/?model=%s&time=%0.2f&seedpoints=%s&timespec=%s&fixplate=%d&movplate=%s' % \
                      (url,model,recon_time,seedpoints,'%s,%s,%s' % (time_min,time_max,time_step),fixplate,movplate),
@@ -44,7 +44,7 @@ def gws_motion_path(recon_time,seedpoints,fixplate,movplate,time_min,time_max,ti
 
 # fetch reconstructed plate velocities
 def gws_velocities(recon_time,polygon_type='static',
-                   model='SETON2012',velocity_type='MagAzim', url='http://gws.gplates.org', proxies={'http':''}):
+                   model='SETON2012',velocity_type='MagAzim', url='https://gws.gplates.org', proxies={'http':''}):
 
     if polygon_type=='topology':
         r = requests.get('%s/velocity/plate_polygons/?model=%s&time=%0.2f&velocity_type=%s' % \
@@ -58,3 +58,13 @@ def gws_velocities(recon_time,polygon_type='static',
     velocities = json.loads(r.text)
 
     return velocities
+
+def gws_model_list(url='https://gws.gplates.org', proxies={'http':''}):
+
+    r = requests.get('%s/list/models' % url, proxies=proxies)
+
+    model_info = json.loads(r.text)
+
+    return model_info
+
+
